@@ -1,10 +1,13 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
+    <div class="container-fluid con-bg">
+      <div class="row">
+        <div class="col-12">
+          <h2>App vue</h2>
+          <router-view/>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -17,16 +20,8 @@
   color: #2c3e50;
 }
 
-nav {
-  padding: 30px;
+.con-bg {
+  background-color: #2c3e50;
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
 </style>
