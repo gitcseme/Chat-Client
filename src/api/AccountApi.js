@@ -1,3 +1,4 @@
+import router from '@/router';
 import Axios from 'axios';
 import store from '../store';
 
@@ -12,6 +13,17 @@ export default {
                 store.dispatch('setAuthStatus', true);
                 store.dispatch('setUser', response.data);
                 resolve(response.data)
+            })
+            .catch(error => reject(error));
+        });
+    },
+    logout() { 
+        return new Promise((resolve, reject) => {
+            Axios.post(account_api + '/logout')
+            .then(() => {
+                store.dispatch('setAuthStatus', false);
+                store.dispatch('setUser', null);
+                resolve()
             })
             .catch(error => reject(error));
         });

@@ -21,7 +21,7 @@
             <input type="checkbox" class="form-check-input" id="rememberMe" v-model="model.rememberMe">
             <label class="form-check-label" for="rememberMe">Remember me</label>
           </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-primary">Login</button>
         </form>
       </div>
     </div>

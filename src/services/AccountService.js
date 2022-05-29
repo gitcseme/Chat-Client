@@ -6,5 +6,8 @@ export default {
     },
     getUserInfo() {
         return AccountApi.getUserInfo();
+    },
+    logout() {
+        return AccountApi.logout();
     }
 }
