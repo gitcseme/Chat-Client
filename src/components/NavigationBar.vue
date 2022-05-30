@@ -2,22 +2,25 @@
   <div class="row">
     <div class="col-md-12 left-bar">
       <div>
-        <h3>User Md Tintin</h3>
+        <h3>{{ loggedInUser.nickName }}</h3>
+        <p>{{ loggedInUser.email }}</p>
       </div>
-      <ul>
-        <li>Home1</li>
-        <li>Home2</li>
-        <li>Home3</li>
-        <li>Home4</li>
-        <li>Home5</li>
-      </ul>
     </div>
   </div>
 </template>
 
 <script>
+
 export default {
-  
+  name: 'NavigationBar',
+  data() {
+    return {
+      loggedInUser: this.$store.getters.getUser,
+    }
+  },
+  mounted() {
+    console.log('user: ', this.loggedInUser);
+  }
 }
 </script>
 
