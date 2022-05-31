@@ -36,5 +36,14 @@ export default {
             })
             .catch(error => reject(error));
         });
+    },
+    getUsers() {
+        return new Promise((resolve, reject) => {
+            Axios.get(account_api + '/users')
+            .then(response => {
+                resolve(response.data)
+            })
+            .catch(error => reject(error));
+        });
     }
 }

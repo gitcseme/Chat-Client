@@ -9,5 +9,8 @@ export default {
     },
     logout() {
         return AccountApi.logout();
+    },
+    getUsers() {
+        return AccountApi.getUsers();
     }
 }

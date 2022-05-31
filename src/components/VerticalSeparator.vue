@@ -5,7 +5,7 @@
 <style>
 .v-separator {
   background-color: #393A3B;
-  height: 100vh;
+  height: 90vh;
   width: 1px;
   z-index: 1;
   top: 0;

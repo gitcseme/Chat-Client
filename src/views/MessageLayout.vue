@@ -1,12 +1,12 @@
 <template>
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4 col-sm-4">
       <NavigationBar />
     </div>
     <div class="col-auto">
       <VS />
     </div>
-    <div class="col-md-8">
+    <div class="col-md-7 col-sm-7">
       <MessageContainer />
     </div>
   </div>  
