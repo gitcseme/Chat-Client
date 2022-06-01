@@ -9,13 +9,17 @@
       <div 
         class="row message"
         v-for="(message, index) in messages" :key="index"
-        :class="{ 'private-message': message.privacy === PrivacyType.Private }"
       >
-        <div class="col-auto">
-          {{ message.sender.nickName }} says:
-        </div>
-        <div class="col">
-          {{ message.message }}
+        <div 
+          class="col-md-12 message-box"
+          :class="{ 'private-message': message.privacy === PrivacyType.Private }"
+        >
+          <h5 class="sender">
+            {{ message.sender.nickName }}
+          </h5>
+          <div class="sender-message">
+            {{ message.message }}
+          </div>
         </div>
       </div>
     </section>
@@ -133,6 +137,26 @@ export default {
 
   .private-message {
     background-color: darkslategray;
+  }
+
+  .message-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 12px;
+    border-radius: 5px;
+    margin: 5px;
+    background-color: lightslategray;
+  }
+
+  .col-md-12.message-box.private-message {
+    background-color: darkred !important;
+  }
+
+  h5.sender {
+    font-weight: 700;
+    color: black;
   }
 
 </style>

@@ -63,11 +63,8 @@ export default {
       this.highlighter = [];
       let length = this.users.length;
       for (let i = 0; i < length; i++) {
-        if (i === highlightIndex) {
-          this.highlighter.push(true);
-        } else {
-          this.highlighter.push(false);
-        }
+        let isActive = i === highlightIndex ? true : false;
+        this.highlighter.push(isActive);
       }
     },
   }
