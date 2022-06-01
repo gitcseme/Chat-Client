@@ -9,6 +9,7 @@
       <div 
         class="row message"
         v-for="(message, index) in messages" :key="index"
+        :class="{ 'private-message': message.privacy === PrivacyType.Private }"
       >
         <div class="col-auto">
           {{ message.sender.nickName }} says:
@@ -18,8 +19,10 @@
         </div>
       </div>
     </section>
+
+    <!-- Send button -->
     <section class="row">
-      <div class="col-md-10 message-input">
+      <div class="col-md-9 message-input">
         <input 
           class="form-control" 
           type="text" 
@@ -27,13 +30,22 @@
           placeholder="Type a message..."
         />
       </div>
-      <div class="col-md-2">
+      <div class="col-md-3">
         <button 
+          v-if="messageType === 'private'"
+          :disabled="message.length === 0" 
+          class="btn btn-outline-warning" 
+          @click="sendPrivate"
+        >
+          Send private
+        </button>
+        <button 
+          v-else 
           :disabled="message.length === 0" 
           class="btn btn-outline-primary" 
           @click="sendToAll"
         >
-          Send
+          Broadcast
         </button>
       </div>
     </section>
@@ -43,6 +55,7 @@
 <script>
 // import signalR from '@microsoft/signalr';
 import { HubConnectionBuilder } from '@microsoft/signalr';
+import Privacy from '../constants/MessagePrivacy';
 
 export default {
   name: 'MessageContainer',
@@ -51,12 +64,16 @@ export default {
       chatConnection: null,
       messages: [],
       message: '',
+      PrivacyType: Privacy,
       loggedInUser: this.$store.getters.getUser,
+      messageType: 'broadcast',
+      receiver: null,
     }
   },
   mounted() {
     window.VUE = this;
 
+    this.loadLintensers();
     this.buildConnection();
   },
   methods: {
@@ -75,14 +92,32 @@ export default {
     sendToAll() {
       let message = {
         message: this.message,
-        sender: this.loggedInUser
+        sender: this.loggedInUser,
+        privacy: this.PrivacyType.Public
       }
 
       this.chatConnection.invoke('SendMessageToAll', message)
         .catch(err => console.log(err));
     },
     sendPrivate() {
-      // this.chatConnection.invoke('SendPrivateMessage', )
+      let message = {
+        sender: this.loggedInUser,
+        receiverId: this.receiver.id,
+        message: this.message
+      }
+
+      this.chatConnection.invoke('SendPrivateMessage', message)
+        .catch(err => console.log('private: ', err));
+    },
+    loadLintensers() {
+      this.$root.$on('broadcast', () => {
+        this.messageType = 'broadcast';
+      });
+
+      this.$root.$on('sendPrivateMessage', (receiver) => {
+        this.messageType = 'private';
+        this.receiver = receiver;
+      });
     }
   }
 }
@@ -95,4 +130,9 @@ export default {
     flex-direction: column;
     justify-content: space-between;
   }
+
+  .private-message {
+    background-color: darkslategray;
+  }
+
 </style>

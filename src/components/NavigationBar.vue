@@ -12,6 +12,8 @@
         <li 
           class="user-list-item"
           v-for="(user, index) in users" :key="index"
+          @click="sendMessageTo(user, index)"
+          :class="{ 'active-item': highlighter[index] }"
         >
           <span>{{ user.nickName }} ( {{ user.email }} )</span>
         </li>
@@ -33,6 +35,7 @@ export default {
     return {
       loggedInUser: this.$store.getters.getUser,
       users: [],
+      highlighter: [],
     }
   },
   mounted() {
@@ -43,7 +46,29 @@ export default {
     loadUsers() {
       AccountService.getUsers().then(response => {
         this.users = response;
+        this.users.unshift({ id: 'All', nickName: 'All', email: 'All' });
+        this.prepareHighlighter(0);
       });
+    },
+    sendMessageTo(user, index) {
+      if (user.id === 'All') {
+        this.$root.$emit('broadcast');
+      } else {
+        this.$root.$emit('sendPrivateMessage', user);
+      }
+
+      this.prepareHighlighter(index);
+    },
+    prepareHighlighter(highlightIndex) {
+      this.highlighter = [];
+      let length = this.users.length;
+      for (let i = 0; i < length; i++) {
+        if (i === highlightIndex) {
+          this.highlighter.push(true);
+        } else {
+          this.highlighter.push(false);
+        }
+      }
     },
   }
 }
@@ -65,6 +90,10 @@ export default {
   ul li:hover {
     background-color: darkslategrey;
     cursor: pointer;
+  }
+
+  .active-item {
+    background-color: green !important;
   }
 
 </style>

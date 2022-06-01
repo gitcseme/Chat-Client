@@ -11,7 +11,6 @@ if (!auth) {
     AccountService.getUserInfo().then(response => {
         store.dispatch('setAuthStatus', true);
         store.dispatch('setUser', response);
-        console.log('axios: settings store');
         router.push({ name: 'dashboard' })
     })
     .catch(error => {
@@ -25,7 +24,7 @@ Axios.interceptors.response.use(
         return response;
     },
     function(error) {
-        console.log('eeeerrrrrrr: ', error);
+        console.log('401 error: ', error);
         if (error.response.status === 401) {
             console.log('401 error: ', error);
             router.push({ name: 'login' });
